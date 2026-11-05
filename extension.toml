@@ -1,12 +1,12 @@
-id = "ferrite.xml"
+id = "flareite.xml"
 name = "XML"
 version = "0.1.0"
 description = "XML: highlighting."
-author = "Ferrite"
+author = "Flareite"
 api_version = "1"
 
 [engines]
-ferrite = ">=0.1.0"
+flareite = ">=0.1.0"
 
 [[languages]]
 id = "xml"
