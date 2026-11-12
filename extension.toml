@@ -1,12 +1,39 @@
+# XML: highlighting from a Tree-sitter grammar compiled to WebAssembly, and
+# closing tags typed as start tags are (src/tags.rs, API 1.19).
 id = "flareite.xml"
 name = "XML"
-version = "0.1.0"
-description = "XML: highlighting."
+version = "0.2.0"
+description = "XML: highlighting, and closing tags typed for you."
 author = "Flareite"
 api_version = "1"
+entrypoint = "target/wasm32-unknown-unknown/release/xml.wasm"
+# Running before the first tag is typed: starting takes longer than the
+# editor waits for a closing tag.
+activation = ["on-language:xml"]
 
 [engines]
 flareite = ">=0.1.0"
+
+# documents_read: reading the text before the cursor, to close tags.
+[permissions]
+documents_read = true
+
+[build]
+command = "cargo"
+args = ["build", "--release"]
+watch = ["src", "Cargo.toml"]
+
+[[commands]]
+id = "flareite.xml.autoInsert"
+title = "Close a Tag"
+hidden = true
+
+# Closing tags typed for you, as in VS Code: `</item>` after the cursor once
+# `<item>` is typed, and the rest of `</item>` once `</` is (API 1.19).
+[[auto_insert_providers]]
+languages = ["xml"]
+trigger_characters = [">", "/"]
+command = "flareite.xml.autoInsert"
 
 [[languages]]
 id = "xml"
@@ -17,3 +44,57 @@ highlights = "queries/xml/highlights.scm"
 folds = "queries/xml/folds.scm"
 injections = "queries/xml/injections.scm"
 block_comment = ["<!--", "-->"]
+# Brackets and quotes typed in pairs, as in VS Code's language configuration.
+brackets = [["<!--", "-->"], ["{", "}"], ["(", ")"]]
+auto_closing_pairs = [
+  [
+    "{",
+    "}",
+  ],
+  [
+    "[",
+    "]",
+  ],
+  [
+    "(",
+    ")",
+  ],
+  { open = "'", close = "'", not_in = [
+    "string",
+    "comment",
+  ] },
+  { open = '"', close = '"', not_in = [
+    "string",
+    "comment",
+  ] },
+  { open = "<!--", close = "-->", not_in = [
+    "string",
+    "comment",
+  ] },
+]
+surrounding_pairs = [
+  [
+    "{",
+    "}",
+  ],
+  [
+    "[",
+    "]",
+  ],
+  [
+    "(",
+    ")",
+  ],
+  [
+    "'",
+    "'",
+  ],
+  [
+    '"',
+    '"',
+  ],
+  [
+    "<",
+    ">",
+  ],
+]
