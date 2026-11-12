@@ -1,7 +1,7 @@
 [package]
 name = "xml"
 description = "XML for Flareite: closing tags typed as start tags are."
-version = "0.2.0"
+version = "1.0.0"
 edition = "2024"
 license = "MIT OR Apache-2.0"
 publish = false
