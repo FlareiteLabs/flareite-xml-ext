@@ -5,6 +5,7 @@ name = "XML"
 version = "1.0.0"
 description = "XML: highlighting, and closing tags typed for you."
 author = "Flareite"
+icon = "icon.svg"
 api_version = "2"
 entrypoint = "target/wasm32-unknown-unknown/release/xml.wasm"
 # Running before the first tag is typed: starting takes longer than the
